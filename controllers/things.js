@@ -82,3 +82,27 @@ exports.findById = function (req,res){
     });
 }
 
+//=================================== add ============================================================================
+exports.add = (req, res) => {
+    var item = req.body;
+    var newItem = {};
+    newItem.name  = req.body.name;
+    newItem.location = req.body.locationl
+    newItem.timestamp = Date.now()/1000; //Date is in milisecond wee need to use second
+
+    var collection = dbConnection.collection('Things');
+
+    var items = collection.insertOne(newItem, (err, returnItem)=> {
+        res.type('application/json');
+
+        if(returnItem != null){ // The data are inserted successfully
+            res.status(201); // Success insertion status
+            res.json(newItem);
+        }else{
+            console.log('Insert Failed');
+            res.status(400);
+            res.json({});
+        }
+    });
+
+}
