@@ -45,3 +45,40 @@ exports.findAll = function (req, res){
 
     });
 }
+
+
+//=================================== Find by ID ============================================================================
+exports.fondById = function (req,res){
+    var collection = dbConnection.collection("Things");
+
+    //Check for valid object ID
+    var objID;
+    try{
+        objID = ObjectID(req.params.id);
+    }catch (e){
+        res.status(500);
+        res.send({success : false, msh : "Invalid Id"});
+        return;
+    }
+
+    var items = collection.findOne({"_id" : objID}, function(err, item){
+        res.type('application/json');
+
+        if(item != null){
+            var newItem = {};
+            newItem.id = item._id;
+            newItem.name = item.name;
+            newItem.location = item.location;
+
+            res.status(200);
+            res.json(newItem);
+        }
+        else{
+            console.log("Oops something is wrong..Item not found: " + req.params.id)
+            res.status(400);
+            res.json({})
+        }
+
+    });
+}
+
