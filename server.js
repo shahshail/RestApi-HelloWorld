@@ -60,7 +60,7 @@ MongoClient.connect(mongodbURL, function(err, dbConnection){
     assert.equal(null,err);
     console.log("connected successfully to mongodb Server : " + mongodbURL);
     db = dbConnection;
-    app.set("dbConnetion",dbConnection);
+    app.set("dbConnection",dbConnection);
 
     require('./routes/things')(app);
 

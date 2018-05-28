@@ -10,7 +10,7 @@ exports.setDBConnectionsFromApp = function(app){
 exports.findAll = function (req, res){
 
     //Mongodb collection specified
-    var collection  = dbCollection.collection("Things");
+    var collection  = dbConnection.collection("Things");
 
     /**
      * collection.find() ,ethod has two parameters : query, projection
