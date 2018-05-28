@@ -1,0 +1,22 @@
+{
+  "name": "rest-api-node",
+  "version": "1.0.0",
+  "description": "This is simple RestApi Development project using NodeJs, ExpressJs and MongoDB. This project is for learning purpose only.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shahshail/RestApi-HelloWorld.git"
+  },
+  "author": "Shail Shah",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shahshail/RestApi-HelloWorld/issues"
+  },
+  "homepage": "https://github.com/shahshail/RestApi-HelloWorld#readme",
+  "dependencies": {
+    "express": "^4.16.3"
+  }
+}
