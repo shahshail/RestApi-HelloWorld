@@ -68,14 +68,22 @@ if(typeof port_string !== "undefined" && port_string.length > 0){
     port_number = port_string;
 }
 
-app.listen(Number(port_number));
-console.log('Server is running....')
+
 
 app.get('/hello',function(req,res){
     res.type('text/plain');
     res.send('Namaste from Shail: This message is comming from PORT' + port_number);
 });
 
-
 console.log("Hello from Node")
 
+MongoClient.connect(mongodbURL, function(err, dbConnection){
+    assert.equal(null,err);
+    console.log("connected successfully to mongodb Server : " + mongodbURL);
+    db = dbConnection;
+    app.set("dbConnetion",dbConnection);
+
+    //after database is connected and ready the we are gonna start listning..(that kind of make sense)
+    app.listen(Number(port_number));
+    console.log('Server is running....')
+});
