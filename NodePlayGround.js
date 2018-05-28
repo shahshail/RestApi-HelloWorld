@@ -32,5 +32,15 @@
 
  }; // NOTE : you can not use "=" sign.. You have to use  ":" because it is a HashMap..
 
+ var newPerson =  {}
+ newPerson.name = "Shail"
+ newPerson.atak = "Shah"
+
+ var personList = []
+ personList.push("ShahShail")
+ console.log(personList)
+
+
+ console.log(newPerson)
  console.log(JSON.stringify(person))
  
