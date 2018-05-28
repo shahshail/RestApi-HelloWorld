@@ -38,7 +38,7 @@ exports.findAll = function (req, res){
 
                 itemList.push(item); //Insert Current item into ItemList
             }else{
-                res.status(200); //Success Code
+                res.status(200); //Success Code - 200
                 res.json({item  : itemList}) // Returns data in JSON format..Simple right :)
             }
         });

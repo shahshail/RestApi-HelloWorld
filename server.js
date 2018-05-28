@@ -47,20 +47,6 @@ console.log(app.get('public'));
 //Set public mappinf - index.html
 app.use(express.static(app.get('public')));
 
-// Set mapping for file not found error
-app.use(function(req, res, next) {
-    res.status(404);
-    res.sendFile(path.join(__dirname,'./public', '404.html'));
-}); 
-
-//Handle stack trace errors
-app.use(function(err, req, res, next) {
-
-    console.error(err.stack);
-    res.status(500);
-    res.sendFile(path.join(__dirname,'./public', '500.html'));
-});
-
 var port_number = "9999"; // tells express to listen this port
 if(typeof port_string !== "undefined" && port_string.length > 0){
     console.log("port_string=" + port_string);
@@ -77,6 +63,21 @@ MongoClient.connect(mongodbURL, function(err, dbConnection){
     app.set("dbConnetion",dbConnection);
 
     require('./routes/things')(app);
+
+    // Set mapping for file not found error
+    app.use(function(req, res, next) {
+        res.status(404);
+        res.sendFile(path.join(__dirname,'./public', '404.html'));
+    }); 
+
+    //Handle stack trace errors
+    app.use(function(err, req, res, next) {
+
+        console.error(err.stack);
+        res.status(500);
+        res.sendFile(path.join(__dirname,'./public', '500.html'));
+    });
+
     //after database is connected and ready the we are gonna start listning..(that kind of make sense)
     app.listen(Number(port_number));
     console.log('Server is running....')
