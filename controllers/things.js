@@ -16,17 +16,20 @@ exports.findAll = function (req, res){
      * collection.find() ,ethod has two parameters : query, projection
      * query : Optional, Specifies selection filter useng query operators. to return all documents in collection pass empty ({}) document.
      * projection : Optional Specifies the field to return document that mathc the query filter.
+     * 
+     * In this findAll method we are going to find all the items from the mongodb database
      */
-    var items = collection.find({},function(err, docCursor){
-        res.type('application/json');
+    var items = collection.find({},function(err, docCursor){ // callback function for Non-Blocking tasks
+        res.type('application/json'); // our response type 
         if(err){
-            res.status(500);
+            res.status(500); // 500 Response if anything goes wrong..
             res.send({success:false, msg : "Database error"});
             return;
         }
 
-        var itemList = [];
-        docCursor.each(function(err,item) {
+        // If we dont get an error then we will preceed further..
+        var itemList = []; // List for storing all the data
+        docCursor.each(function(err,item) { //Iterate the ducument (NOTE : all the data we are receive from mongobd will be in JSON-Document format)
             if(item != null){
                 var newItem = {};
                 newItem.id = item._id;
@@ -35,8 +38,8 @@ exports.findAll = function (req, res){
 
                 itemList.push(item); //Insert Current item into ItemList
             }else{
-                res.status(200);
-                res.json({item  : itemList})
+                res.status(200); //Success Code
+                res.json({item  : itemList}) // Returns data in JSON format..Simple right :)
             }
         });
 
