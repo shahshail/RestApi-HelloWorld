@@ -5,8 +5,7 @@ var assert = require('assert');
 var MongoClient = require('mongodb').MongoClient;
 var ObjectId = require('mongodb').ObjectID;
 var budyParser = require('body-parser');
-
-
+var path = require('path');
 var app = express();
 
 // Database Connection Information
@@ -28,7 +27,7 @@ if(env_value === "undefined"){
 } else {
     switch(env_value){
         case "DEV" : 
-            mongodbURL = "mongodb://localhost:27017/HelloWorld"
+            mongodbURL = "mongodb://localhost:27017/HelloWorld";
             console.log("environment = " + mongodbURL);
             break;
 
@@ -39,6 +38,13 @@ if(env_value === "undefined"){
     }
 }
 
+app.set('public', path.join(__dirname, 'public'));
+
+console.log(__dirname);
+console.log(__filename);
+console.log(app.get('public'));
+
+app.use(express.static(app.get('public')));
 
 var port_number = "9999"; // tells express to listen this port
 if(typeof port_string !== "undefined" && port_string.length > 0){
