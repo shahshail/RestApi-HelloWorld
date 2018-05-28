@@ -44,7 +44,15 @@ console.log(__dirname);
 console.log(__filename);
 console.log(app.get('public'));
 
+//Set public mappinf - index.html
 app.use(express.static(app.get('public')));
+
+// Set mapping for file not found error
+app.use(function(req, res, next) {
+    res.status(404);
+    res.sendFile(path.join(__dirname,'./public', '404.html'));
+}); 
+
 
 var port_number = "9999"; // tells express to listen this port
 if(typeof port_string !== "undefined" && port_string.length > 0){
