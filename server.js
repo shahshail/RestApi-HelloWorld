@@ -1,11 +1,18 @@
 
 // This line simply import express dependency to our file..
-var express = require('express')
+var express = require('express');
+var assert = require('assert');
+var MongoClient = require('mongodb').MongoClient;
+var ObjectId = require('mongodb').ObjectID;
+var budyParser = require('body-parser');
+
 
 var app = express()
 
 //Port number that we are gonna listning on
 //Rather than hardcore the port number we can implement a method to get argument from command line and set the port numbers dynamically..
+//This will be important if you trying to run multiple server in single machine
+
 var program_name = process.argv[0];
 var script_path = process.argv[1];
 var port_string = process.argv[2];
