@@ -1,0 +1,2 @@
+# Ignore node_module file to upload
+node_module/
