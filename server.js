@@ -53,6 +53,13 @@ app.use(function(req, res, next) {
     res.sendFile(path.join(__dirname,'./public', '404.html'));
 }); 
 
+//Handle stack trace errors
+app.use(function(err, req, res, next) {
+
+    console.error(err.stack);
+    res.status(500);
+    res.sendFile(path.join(__dirname,'./public', '500.html'));
+});
 
 var port_number = "9999"; // tells express to listen this port
 if(typeof port_string !== "undefined" && port_string.length > 0){
