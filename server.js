@@ -68,13 +68,6 @@ if(typeof port_string !== "undefined" && port_string.length > 0){
     port_number = port_string;
 }
 
-
-
-app.get('/hello',function(req,res){
-    res.type('text/plain');
-    res.send('Namaste from Shail: This message is comming from PORT' + port_number);
-});
-
 console.log("Hello from Node")
 
 MongoClient.connect(mongodbURL, function(err, dbConnection){
@@ -83,6 +76,7 @@ MongoClient.connect(mongodbURL, function(err, dbConnection){
     db = dbConnection;
     app.set("dbConnetion",dbConnection);
 
+    require('./routes/things')(app);
     //after database is connected and ready the we are gonna start listning..(that kind of make sense)
     app.listen(Number(port_number));
     console.log('Server is running....')
