@@ -48,7 +48,7 @@ exports.findAll = function (req, res){
 
 
 //=================================== Find by ID ============================================================================
-exports.fondById = function (req,res){
+exports.findById = function (req,res){
     var collection = dbConnection.collection("Things");
 
     //Check for valid object ID
