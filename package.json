@@ -20,6 +20,6 @@
     "assert": "^1.4.1",
     "body-parser": "^1.18.3",
     "express": "^4.16.3",
-    "mongodb": "^3.1.0-beta4"
+    "mongodb": "^2.2.33"
   }
 }
