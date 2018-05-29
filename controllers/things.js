@@ -118,3 +118,36 @@ exports.add = function(req, res) {
         }
     })
 }
+
+//=================================== update/put ============================================================================
+exports.update = (req, res) =>{
+    console.log(req.body);
+
+    var item = req.body;
+    var collection = dbConnection.collection("Things");
+
+    //Check for valid Object(ID)
+    var objID;
+    try{
+        objID = ObjectID(req.params.id);
+    }catch(e) {
+        res.status(500);
+        res.send({success : false, msg : "Invalid object id"});
+        return;
+    }
+
+    // "$set" = Updates field or add them if they are not exists. https://docs.mongodb.com/manual/reference/operator/update/set/
+    var items = collection.update({"_id" : objID}, {"$set": item}, (err, result) => {
+        res.type('application/json');
+
+        if(result != null)
+        {
+            res.status(200);
+            res.json({}); //Data updated successfully
+        }else{
+            console.log('Update failed');
+            res.status(400);
+            res.send({success : false, msg : "failed to update"});
+        }
+    });
+}
