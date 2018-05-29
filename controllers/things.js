@@ -151,3 +151,33 @@ exports.update = (req, res) =>{
         }
     });
 }
+
+
+//=================================== delete ============================================================================
+exports.delete = (req, res) => {
+    var collection = dbConnection.collection("Things");
+
+    var objID;
+    try{
+        objID = ObjectID(req.param.id);
+    }catch(e){
+        res.status(500);
+        res.send({success : false, msg : "Invalid Object ID"});
+        return;
+    }
+
+    var items = collection.remove({"_id" : objID}, (err, status) =>{
+        res.type('application/json');
+
+        if(status.result.n == 0){
+            console.log('delete failed');
+            res.status(400);
+            res.send({success: false, msg : "failed to delete"});
+            return;
+        }
+
+        res.status(200);
+        res.json({});
+    });
+
+}
