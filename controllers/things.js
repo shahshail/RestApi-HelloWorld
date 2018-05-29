@@ -83,7 +83,7 @@ exports.findById = function (req,res){
 }
 
 //=================================== add ============================================================================
-exports.add = (req, res) => {
+exports.add = function(req, res) {
     var item = req.body;
     var newItem = {};
     newItem.name  = req.body.name;
