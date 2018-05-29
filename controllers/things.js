@@ -90,19 +90,94 @@ exports.add = function(req, res) {
     newItem.location = req.body.locationl
     newItem.timestamp = Date.now()/1000; //Date is in milisecond wee need to use second
 
+    //Timestamp is in floating point number so we can pasrse it to INt
+    parseInt(newItem.timestamp,10);
+
     var collection = dbConnection.collection('Things');
 
-    var items = collection.insertOne(newItem, (err, returnItem)=> {
+    //Check to see if the item already exists. If so skip the insert.
+    var checkItem = collection.findOne({"name" : newItem.name}, (err, returnItem) =>{
+        if(returnItem != null)
+        {
+            console.log("The Item is already exists in the database");
+            res.status(400);
+            res.json({success:false , msg: "item with name already in database"});
+        }else{
+            var items = collection.insertOne(newItem, (err, returnItem)=> {
+                res.type('application/json');
+        
+                if(returnItem != null){ // The data are inserted successfully
+                    res.status(201); // Success insertion status
+                    res.json(newItem);
+                }else{
+                    console.log('Insert Failed');
+                    res.status(400);
+                    res.json({});
+                }
+            });
+        }
+    })
+}
+
+//=================================== update/put ============================================================================
+exports.update = (req, res) =>{
+    console.log(req.body);
+
+    var item = req.body;
+    var collection = dbConnection.collection("Things");
+
+    //Check for valid Object(ID)
+    var objID;
+    try{
+        objID = ObjectID(req.params.id);
+    }catch(e) {
+        res.status(500);
+        res.send({success : false, msg : "Invalid object id"});
+        return;
+    }
+
+    // "$set" = Updates field or add them if they are not exists. https://docs.mongodb.com/manual/reference/operator/update/set/
+    var items = collection.update({"_id" : objID}, {"$set": item}, (err, result) => {
         res.type('application/json');
 
-        if(returnItem != null){ // The data are inserted successfully
-            res.status(201); // Success insertion status
-            res.json(newItem);
+        if(result != null)
+        {
+            res.status(200);
+            res.json({}); //Data updated successfully
         }else{
-            console.log('Insert Failed');
+            console.log('Update failed');
             res.status(400);
-            res.json({});
+            res.send({success : false, msg : "failed to update"});
         }
+    });
+}
+
+
+//=================================== delete ============================================================================
+exports.delete = (req, res) => {
+    var collection = dbConnection.collection("Things");
+
+    var objID;
+    try{
+        objID = ObjectID(req.param.id);
+    }catch(e){
+        res.status(500);
+        res.send({success : false, msg : "Invalid Object ID"});
+        return;
+    }
+
+    var items = collection.remove({"_id" : objID}, (err, status) =>{
+        res.type('application/json');
+
+        if(status.result.n == 0){
+            console.log('delete failed');
+            res.status(400);
+            res.send({success: false, msg : "failed to delete"});
+            return;
+        }
+
+        res.status(200);
+        res.json({});
     });
 
 }
