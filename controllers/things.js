@@ -90,19 +90,31 @@ exports.add = function(req, res) {
     newItem.location = req.body.locationl
     newItem.timestamp = Date.now()/1000; //Date is in milisecond wee need to use second
 
+    //Timestamp is in floating point number so we can pasrse it to INt
+    parseInt(newItem.timestamp,10);
+
     var collection = dbConnection.collection('Things');
 
-    var items = collection.insertOne(newItem, (err, returnItem)=> {
-        res.type('application/json');
-
-        if(returnItem != null){ // The data are inserted successfully
-            res.status(201); // Success insertion status
-            res.json(newItem);
+    //Check to see if the item already exists. If so skip the insert.
+    var checkItem = collection.findOne({"name" : newItem.name}, (err, returnItem) =>{
+        if(returnItem != null)
+        {
+            console.log("The Item is already exists in the database");
+            res.status(201);
+            res.json(returnItem);
         }else{
-            console.log('Insert Failed');
-            res.status(400);
-            res.json({});
+            var items = collection.insertOne(newItem, (err, returnItem)=> {
+                res.type('application/json');
+        
+                if(returnItem != null){ // The data are inserted successfully
+                    res.status(201); // Success insertion status
+                    res.json(newItem);
+                }else{
+                    console.log('Insert Failed');
+                    res.status(400);
+                    res.json({});
+                }
+            });
         }
-    });
-
+    })
 }
