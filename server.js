@@ -4,9 +4,13 @@ var express = require('express');
 var assert = require('assert');
 var MongoClient = require('mongodb').MongoClient;
 var ObjectId = require('mongodb').ObjectID;
-var budyParser = require('body-parser');
+var bodyParser = require('body-parser');
 var path = require('path');
 var app = express();
+
+//We need to tell express to use a body parser to read data for POST,UPDATE and DELETE method
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended : true}));
 
 // Database Connection Information
 var db;
