@@ -100,8 +100,8 @@ exports.add = function(req, res) {
         if(returnItem != null)
         {
             console.log("The Item is already exists in the database");
-            res.status(201);
-            res.json(returnItem);
+            res.status(400);
+            res.json({success:false , msg: "item with name already in database"});
         }else{
             var items = collection.insertOne(newItem, (err, returnItem)=> {
                 res.type('application/json');
