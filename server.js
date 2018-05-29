@@ -8,8 +8,8 @@ var bodyParser = require('body-parser');
 var path = require('path');
 var app = express();
 
-//We need to tell express to use a body parser to read data for POST method
-app.use(bodyParser.json);
+//We need to tell express to use a body parser to read data for POST,UPDATE and DELETE method
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended : true}));
 
 // Database Connection Information
